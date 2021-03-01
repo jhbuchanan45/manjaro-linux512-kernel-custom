@@ -9,8 +9,8 @@
 # Cloud Server
 _server=cpx51
 
-pkgbase=linux511
-pkgname=('linux511' 'linux511-headers')
+pkgbase=linux512
+pkgname=('linux512' 'linux512-headers')
 _kernelname=-MANJARO
 _basekernel=5.12
 _basever=512
@@ -18,8 +18,8 @@ _rc=rc1
 _commit=fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8
 _shortcommit=.${_rc}.d0228.g${_commit:0:7}
 _pkgver=${_basekernel}${_shortcommit}
-pkgver=5.11.rc1.d1227.g5c8fe58
-pkgrel=0
+pkgver=5.12.rc1.d0228.gfe07bfd
+pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -43,8 +43,6 @@ source=(#"https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.
         # ARCH Patches
         '0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch'
         '0002-HID-quirks-Add-Apple-Magic-Trackpad-2-to-hid_have_special_driver-list.patch'
-        '0004-revert-drm-amd-display-reuse-current-context-instead-of-recreating-one.patch'
-        '0005-drm-amdgpu-fix-shutdown-with-s0ix.patch'
         # Temp Fixes
         # MANJARO Patches
         '0101-i2c-nuvoton-nc677x-hwmon-driver.patch'
@@ -73,14 +71,11 @@ source=(#"https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.
         '0512-bootsplash.patch'
         '0513-bootsplash.gitpatch'
         )
-sha256sums=('04f07b54f0d40adfab02ee6cbd2a942c96728d87c1ef9e120d0cb9ba3fe067b4'
-            '7a6d20308aed903a81a67e76e7c6cd294fb7cbb87f887e2168097da865def8ba'
-            'b09f92a89ef003039fe3e6d73fce817fd477c56bf78f39fd1a7811a64fb6fdc7'
+sha256sums=('0baa54ffbb6fbd6efc23e51b1423d205db999d94a984069cdfbc3f7df6fb70a9'
+            'f45740dfb22b7e1637c7d72787996d5f7cea09cf27bf57511e9eda285a64a66e'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
             'df5843818f1571841e1a8bdbe38d7f853d841f38de46d6a6a5765de089495578'
-            'cacc9efddfbee04b5d033d2f9ec6876d0135bfee74ffced8707c7d2aff729109'
-            '8cbd5e63c178354c8c35d46cae9ff01badbba335314f02fcf0b2328fa2ead52b'
             '7823d7488f42bc4ed7dfae6d1014dbde679d8b862c9a3697a39ba0dae5918978'
             '95745075edd597caa92b369cfbcd11a04c9e3c88c0c987c70114924e1e01df5c'
             'b302ba6c5bbe8ed19b20207505d513208fae1e678cf4d8e7ac0b154e5fe3f456'
@@ -169,7 +164,7 @@ build() {
   make ${MAKEFLAGS} LOCALVERSION= bzImage modules
 }
 
-package_linux511() {
+package_linux512() {
   pkgdesc="The ${pkgbase/linux/Linux} kernel and modules"
   depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio>=27')
   optdepends=('crda: to set the correct wireless channels of your country')
@@ -214,7 +209,7 @@ package_linux511() {
   install -Dt "${pkgdir}/usr/lib/modules/${_kernver}/build" -m644 vmlinux
 }
 
-package_linux511-headers() {
+package_linux512-headers() {
   pkgdesc="Header files and scripts for building modules for ${pkgbase/linux/Linux} kernel"
   depends=('gawk' 'python' 'libelf')
   provides=("linux-headers=$pkgver")
@@ -280,4 +275,3 @@ package_linux511-headers() {
     /usr/bin/strip ${_strip} "${_binary}"
   done < <(find "${_builddir}/scripts" -type f -perm -u+w -print0 2>/dev/null)
 }
-
