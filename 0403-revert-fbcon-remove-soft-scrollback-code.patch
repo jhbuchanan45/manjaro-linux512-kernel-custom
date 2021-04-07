@@ -115,11 +115,10 @@
   	int c = scr_readw((u16 *) vc->vc_pos);
  
  	ops->cur_blink_jiffies = msecs_to_jiffies(vc->vc_cur_blink_ms);
-@@ -1334,11 +1389,18 @@ static void fbcon_cursor(struct vc_data
+@@ -1334,11 +1389,19 @@ static void fbcon_cursor(struct vc_data
  		fbcon_add_cursor_timer(info);
  
  	ops->cursor_flash = (mode == CM_ERASE) ? 0 : 1;
--
 +	if (mode & CM_SOFTBACK) {
 +		mode &= ~CM_SOFTBACK;
 +		y = softback_lines;
@@ -128,7 +127,7 @@
 +			fbcon_set_origin(vc);
 +		y = 0;
 +	}
-
+ 
  	if (!ops->cursor)
  		return;
  
