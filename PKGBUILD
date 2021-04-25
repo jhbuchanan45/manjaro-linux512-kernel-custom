@@ -14,12 +14,8 @@ pkgname=('linux512' 'linux512-headers')
 _kernelname=-MANJARO
 _basekernel=5.12
 _basever=512
-_rc=rc8
-_commit=16fc44d6387e260f4932e9248b985837324705d8
-_shortcommit=.${_rc}.d0421.g${_commit:0:7}
-_pkgver=${_basekernel}${_shortcommit}
-pkgver=5.12.rc8.d0421.g16fc44d
-pkgrel=1
+pkgver=5.12.0
+pkgrel=0
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -36,8 +32,8 @@ makedepends=('bc'
     'xz')
 options=('!strip')
 source=(#"https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.xz"
+        "https://github.com/torvalds/linux/archive/v${_basekernel}.tar.gz"
         #"https://www.kernel.org/pub/linux/kernel/v5.x/patch-${pkgver}.xz"
-        "linux-${_pkgver}.zip::https://codeload.github.com/torvalds/linux/zip/$_commit"
         # the main kernel config files
         'config' 'config.anbox'
         # ARCH Patches
@@ -71,8 +67,8 @@ source=(#"https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.
         '0512-bootsplash.patch'
         '0513-bootsplash.gitpatch'
         )
-sha256sums=('2c3ace8c85637552b607257d36b69dbaf50b8f041d7a598a6f1dfa99263d3656'
-            'fa6ba9bdafb8442e382ad9966ecebfbb90de4fd00ba0f02370099cf423d27155'
+sha256sums=('1c9334afe7a3b805d8d5127ee31441418c795242a3ac30789fa391a0bdeb125b'
+            '4dc2f1899b4cec79c9942cc2be948b226e38a45f46a82514a54284367a4d2e3e'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
             'df5843818f1571841e1a8bdbe38d7f853d841f38de46d6a6a5765de089495578'
@@ -99,12 +95,8 @@ sha256sums=('2c3ace8c85637552b607257d36b69dbaf50b8f041d7a598a6f1dfa99263d3656'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef')
 
-pkgver() {
-  printf '%s' "${_pkgver}"
-}
 
 prepare() {
-  mv "${srcdir}/linux-${_commit}" "${srcdir}/linux-${_basekernel}"
   cd "${srcdir}/linux-${_basekernel}"
 
   # add upstream patch
@@ -134,9 +126,6 @@ prepare() {
 
   msg "set extraversion to pkgrel"
   sed -ri "s|^(EXTRAVERSION =).*|\1 -${pkgrel}|" Makefile
-
-  # set patchlevel to 12
-  sed -ri "s|^(PATCHLEVEL =).*|\1 12|" Makefile
 
   msg "don't run depmod on 'make install'"
   # We'll do this ourselves in packaging
