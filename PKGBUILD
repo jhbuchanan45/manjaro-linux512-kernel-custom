@@ -31,8 +31,7 @@ makedepends=('bc'
     'tar'
     'xz')
 options=('!strip')
-source=(#"https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.xz"
-        "https://github.com/torvalds/linux/archive/v${_basekernel}.tar.gz"
+source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.xz"
         #"https://www.kernel.org/pub/linux/kernel/v5.x/patch-${pkgver}.xz"
         # the main kernel config files
         'config' 'config.anbox'
@@ -67,7 +66,7 @@ source=(#"https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.
         '0512-bootsplash.patch'
         '0513-bootsplash.gitpatch'
         )
-sha256sums=('1c9334afe7a3b805d8d5127ee31441418c795242a3ac30789fa391a0bdeb125b'
+sha256sums=('7d0df6f2bf2384d68d0bd8e1fe3e071d64364dcdc6002e7b5c87c92d48fac366'
             '4dc2f1899b4cec79c9942cc2be948b226e38a45f46a82514a54284367a4d2e3e'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
