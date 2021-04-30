@@ -11,7 +11,14 @@ to build the pacman compatible packages. Both the kernel and headers package sho
 
 ```pacman -U {KERNEL-HEADERS}.pkg.tar.zst {KERNEL}.pkg.tar.zst ```
 
+## Troubleshooting
+If for some reason the build fails after apply patchs to the kernel, before retrying ensure you reset the kernel to the unpatched state by running these commands. **Ensure you commit any changes you have made before doing this!**
 
+```git clean -fdx``` 
+
+and
+
+```git reset --hard```
 
 ## Reference
 https://wiki.archlinux.org/index.php/Kernel/Arch_Build_System
