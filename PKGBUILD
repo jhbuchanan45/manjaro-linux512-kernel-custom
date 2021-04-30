@@ -9,11 +9,11 @@
 # Cloud Server
 _server=cpx51
 
-pkgbase=linux512
-pkgname=('linux512' 'linux512-headers')
-_kernelname=-MANJARO
-_basekernel=5.12
-_basever=512
+pkgbase=linux512-custom
+pkgname=('linux512-custom' 'linux512-custom-headers')
+_kernelname=-CUSTOM-MANJARO
+_basekernel=5.12-custom
+_basever=512-custom
 pkgver=5.12.0
 pkgrel=1
 arch=('x86_64')
@@ -31,7 +31,8 @@ makedepends=('bc'
     'tar'
     'xz')
 options=('!strip')
-source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.xz"
+source=(
+        # 'staging/'
         #"https://www.kernel.org/pub/linux/kernel/v5.x/patch-${pkgver}.xz"
         # the main kernel config files
         'config' 'config.anbox'
@@ -66,7 +67,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0512-bootsplash.patch'
         '0513-bootsplash.gitpatch'
         )
-sha256sums=('7d0df6f2bf2384d68d0bd8e1fe3e071d64364dcdc6002e7b5c87c92d48fac366'
+sha256sums=(
+            # 'SKIP'
             '38f369891d6d23430ebf40267bdcbfe3a93db54f06be12151c6ca9039ee9181c'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
@@ -96,7 +98,7 @@ sha256sums=('7d0df6f2bf2384d68d0bd8e1fe3e071d64364dcdc6002e7b5c87c92d48fac366'
 
 
 prepare() {
-  cd "${srcdir}/linux-${_basekernel}"
+  cd "${srcdir}/../staging/"
 
   # add upstream patch
   #msg "add upstream patch"
@@ -146,19 +148,19 @@ prepare() {
 }
 
 build() {
-  cd "${srcdir}/linux-${_basekernel}"
+  cd "${srcdir}/../staging/"
 
   msg "build"
   make ${MAKEFLAGS} LOCALVERSION= bzImage modules
 }
 
-package_linux512() {
+package_linux512-custom() {
   pkgdesc="The ${pkgbase/linux/Linux} kernel and modules"
   depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio>=27')
   optdepends=('crda: to set the correct wireless channels of your country')
   provides=("linux=${pkgver}" VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE)
 
-  cd "${srcdir}/linux-${_basekernel}"
+  cd "${srcdir}/../staging/"
 
   KARCH=x86
 
@@ -197,12 +199,12 @@ package_linux512() {
   install -Dt "${pkgdir}/usr/lib/modules/${_kernver}/build" -m644 vmlinux
 }
 
-package_linux512-headers() {
+package_linux512-custom-headers() {
   pkgdesc="Header files and scripts for building modules for ${pkgbase/linux/Linux} kernel"
   depends=('gawk' 'python' 'libelf')
   provides=("linux-headers=$pkgver")
 
-  cd "${srcdir}/linux-${_basekernel}"
+  cd "${srcdir}/../staging/"
   local _builddir="${pkgdir}/usr/lib/modules/${_kernver}/build"
 
   install -Dt "${_builddir}" -m644 Makefile .config Module.symvers
