@@ -14,8 +14,8 @@ pkgname=('linux512-custom' 'linux512-custom-headers')
 _kernelname=-CUSTOM-MANJARO
 _basekernel=5.12-custom
 _basever=512-custom
-pkgver=5.12.0
-pkgrel=1
+pkgver=5.12.1
+pkgrel=2
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -32,8 +32,8 @@ makedepends=('bc'
     'xz')
 options=('!strip')
 source=(
-        # 'staging/'
-        #"https://www.kernel.org/pub/linux/kernel/v5.x/patch-${pkgver}.xz"
+        # "https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.xz"
+        "https://www.kernel.org/pub/linux/kernel/v5.x/patch-${pkgver}.xz"
         # the main kernel config files
         'config' 'config.anbox'
         # ARCH Patches
@@ -68,8 +68,8 @@ source=(
         '0513-bootsplash.gitpatch'
         )
 sha256sums=(
-            # 'SKIP'
-            '38f369891d6d23430ebf40267bdcbfe3a93db54f06be12151c6ca9039ee9181c'
+            'd90692a8c4bc8d4ea20a21e30927ba4d01bc772c3ff537059303f01a0bfaa813'
+            'cdae8754f1e561335001c58117dc49dc71230eb361411d5fc3f78655477c7107'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
             'df5843818f1571841e1a8bdbe38d7f853d841f38de46d6a6a5765de089495578'
@@ -101,8 +101,8 @@ prepare() {
   cd "${srcdir}/../staging/"
 
   # add upstream patch
-  #msg "add upstream patch"
-  #patch -p1 -i "${srcdir}/patch-${pkgver}"
+  msg "add upstream patch"
+  patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   local src
   for src in "${source[@]}"; do
